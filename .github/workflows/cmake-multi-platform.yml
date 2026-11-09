@@ -1,15 +1,13 @@
-name: Compilar e Lançar Release
+name: CMake on multiple platforms with Raylib
 
 on:
   push:
     tags:
-      - "v*.*.*" # O workflow só vai rodar quando você enviar uma tag como v0.0.1, v1.0.0, etc.
+      - "v*.*.*"
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    
-    # PERMISSÃO OBRIGATÓRIA: Permite que o bot do GitHub crie a Release no repositório
     permissions:
       contents: write 
 
@@ -26,9 +24,14 @@ jobs:
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
+          - os: ubuntu-latest
+            c_compiler: clang
+            cpp_compiler: clang++
         exclude:
           - os: windows-latest
             c_compiler: gcc
+          - os: windows-latest
+            c_compiler: clang
           - os: ubuntu-latest
             c_compiler: cl
 
@@ -51,21 +54,17 @@ jobs:
     - name: Compilar
       run: cmake --build build --config ${{ matrix.build_type }}
 
-    # Empacota o jogo no Windows (.zip)
     - name: Zip Windows
       if: runner.os == 'Windows'
-      run: Compress-Archive -Path build\Release\Main.exe -DestinationPath Windows.zip
+      run: Compress-Archive -Path build\Release\MeuJogoRaylib.exe -DestinationPath Jogo-Windows.zip
 
-    # Empacota o jogo no Linux (.zip)
     - name: Zip Linux
       if: runner.os == 'Linux'
-      run: zip -j Linux.zip build/Main
+      run: zip -j Jogo-Linux.zip build/MeuJogoRaylib
 
-    # Cria a Release e faz o upload do arquivo Zip
     - name: Publicar na Release
       uses: softprops/action-gh-release@v2
       with:
-        # A ação é inteligente: o Windows envia o dele e o Linux envia o dele para a mesma Release
         files: |
-          Windows.zip
-          Linux.zip
+          Jogo-Windows.zip
+          Jogo-Linux.zip
