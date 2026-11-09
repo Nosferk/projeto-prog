@@ -1,6 +1,13 @@
 # Prerequisites
 *.d
 
+#build
+/build
+.clang-format
+.clangd
+/.vscode
+
+
 # Object files
 *.o
 *.ko
