@@ -1,20 +1,20 @@
-# This starter workflow is for a CMake project running on multiple platforms.
-name: CMake on multiple platforms with Raylib
+name: Compilar e Lançar Release
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags:
+      - "v*.*.*" # O workflow só vai rodar quando você enviar uma tag como v0.0.1, v1.0.0, etc.
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    
+    # PERMISSÃO OBRIGATÓRIA: Permite que o bot do GitHub crie a Release no repositório
+    permissions:
+      contents: write 
 
     strategy:
-      # Set fail-fast to false to ensure that feedback is delivered for all matrix combinations.
       fail-fast: false
-
       matrix:
         os: [ubuntu-latest, windows-latest]
         build_type: [Release]
@@ -26,54 +26,46 @@ jobs:
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
-          - os: ubuntu-latest
-            c_compiler: clang
-            cpp_compiler: clang++
         exclude:
           - os: windows-latest
             c_compiler: gcc
-          - os: windows-latest
-            c_compiler: clang
           - os: ubuntu-latest
             c_compiler: cl
 
     steps:
     - uses: actions/checkout@v4
 
-    # Raylib requires system packages on Linux for window creation, OpenGL contexts, and audio.
-    - name: Install Linux Dependencies
+    - name: Instalar Dependencias do Linux
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install -y --no-install-recommends \
-          libasound2-dev \
-          libx11-dev \
-          libxrandr-dev \
-          libxi-dev \
-          libgl1-mesa-dev \
-          libglu1-mesa-dev \
-          libxcursor-dev \
-          libxinerama-dev \
-          libwayland-dev \
-          libxkbcommon-dev
+        sudo apt-get install -y --no-install-recommends libasound2-dev libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev libwayland-dev libxkbcommon-dev
 
-    - name: Set reusable strings
-      id: strings
-      shell: bash
-      run: |
-        echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
-
-    - name: Configure CMake
+    - name: Configurar CMake
       run: >
-        cmake -B ${{ steps.strings.outputs.build-output-dir }}
+        cmake -B build
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -S ${{ github.workspace }}
 
-    - name: Build
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+    - name: Compilar
+      run: cmake --build build --config ${{ matrix.build_type }}
 
-    - name: Test
-      working-directory: ${{ steps.strings.outputs.build-output-dir }}
-      run: ctest --build-config ${{ matrix.build_type }}
+    # Empacota o jogo no Windows (.zip)
+    - name: Zip Windows
+      if: runner.os == 'Windows'
+      run: Compress-Archive -Path build\Release\Main.exe -DestinationPath Windows.zip
+
+    # Empacota o jogo no Linux (.zip)
+    - name: Zip Linux
+      if: runner.os == 'Linux'
+      run: zip -j Linux.zip build/Main
+
+    # Cria a Release e faz o upload do arquivo Zip
+    - name: Publicar na Release
+      uses: softprops/action-gh-release@v2
+      with:
+        # A ação é inteligente: o Windows envia o dele e o Linux envia o dele para a mesma Release
+        files: |
+          Windows.zip
+          Linux.zip

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(MeuJogoRaylib C)
+project(Main C)
 
 # Define o padrão da linguagem C
 set(CMAKE_C_STANDARD 11)
