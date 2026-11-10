@@ -4,8 +4,6 @@
 
 int largura_tela;
 int altura_tela;
-GetMonitorWidth(int largura_tela);
-GetMonitorHeight(int altura_tela);
 void fundo_base(int *menu, Font Fo, float *loja_barra);
 void loja(int menu, Font Fo, float *loja_barra);
 void barra_lateral_scroll(Vector2 pos1, Vector2 pos2, float *agora, Color C, Color C2, Color C3);
@@ -14,9 +12,10 @@ float map(float valor, float entrada_min, float entrada_max, float saida_min, fl
 
 int main(void) {
     
-    InitWindow(largura_tela, altura_tela, "Steam IFSC");
+    InitWindow(0, 0, "Steam IFSC");
     ToggleFullscreen();
-
+    largura_tela = GetMonitorWidth(GetCurrentMonitor());
+    altura_tela = GetMonitorHeight(GetCurrentMonitor());
     Font Fo = LoadFont("assets/fonts/Roboto-Condensed.ttf");
 
     if (!IsFontValid(Fo)) {
