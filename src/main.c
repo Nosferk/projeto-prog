@@ -2,8 +2,10 @@
 #include <stdlib.h>
 #include "cores.h"
 
-int largura_tela = 1920, altura_tela = 1080;
-
+int largura_tela;
+int altura_tel;
+GetMonitorWidth(int largura_tela);
+GetMonitorHeight(int altura_tela);
 void fundo_base(int *menu, Font Fo, float *loja_barra);
 void loja(int menu, Font Fo, float *loja_barra);
 void barra_lateral_scroll(Vector2 pos1, Vector2 pos2, float *agora, Color C, Color C2, Color C3);
@@ -12,7 +14,7 @@ float map(float valor, float entrada_min, float entrada_max, float saida_min, fl
 
 int main(void) {
     
-    InitWindow(1920, 1080, "Steam IFSC");
+    InitWindow(largura_tela, altura_tel, "Steam IFSC");
     ToggleFullscreen();
 
     Font Fo = LoadFont("assets/fonts/Roboto-Condensed.ttf");
