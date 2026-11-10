@@ -1,5 +1,4 @@
-#ifndef CORES_H
-#define CORES_H
+#pragma once
 
 #include "raylib.h"
 
@@ -9,6 +8,3 @@
 #define VERDE_SUPER_IPER_ESCURO (Color){0,40,0,255}
 #define VERDE_SUPER_ESCURO (Color){0,50,0,255}
 #define VERDE_NAO_SUPER_ESCURO (Color){0,60,0,255}
-
-
-#endif
