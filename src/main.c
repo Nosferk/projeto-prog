@@ -40,9 +40,9 @@ int main(void) {
 void barra_lateral_scroll(Vector2 pos1, Vector2 pos2, float *agora, Color C, Color C2, Color C3){
     DrawRectangle(pos1.x, pos1.y, pos2.x, pos2.y, C2);
     *agora -= GetMouseWheelMove();
-    if (*agora < 0) *agora = 0;
-    if (*agora > 100) *agora = 100;
-    float real_agora = map(*agora, 0.0, 100.0, pos1.y, pos1.y + pos2.y - 50.0);
+    if (*agora < 0) *agora = 0.0f;
+    if (*agora > 100) *agora = 100.0f;
+    float real_agora = map(*agora, 0.0f, 100.0f, pos1.y, pos1.y + pos2.y - 50.0f);
     
     DrawRectangle(pos1.x, real_agora, pos2.x, 50, C);
     DrawRectangleLines(pos1.x, real_agora, pos2.x, 50, C3);
@@ -93,10 +93,10 @@ void fundo_base(int *menu, Font Fo, float *loja_barra) {
 
     //Menus
     if(*menu == 0){
-        botao("Loja", 30, 0, 20, 200, 40, VERDE_NAO_SUPER_ESCURO, WHITE, Fo);
+        if (botao("Loja", 30, 0, 20, 200, 40, VERDE_NAO_SUPER_ESCURO, WHITE, Fo)) *loja_barra = 0.0f;
     } else if(botao("Loja", 30, 0, 20, 200, 40, VERDE_SUPER_ESCURO, WHITE, Fo)){
         *menu = 0;
-        *loja_barra = 0;
+        *loja_barra = 0.0f;
     }
     if(*menu == 1){
         botao("Biblioteca", 30, 200, 20, 200, 40, VERDE_NAO_SUPER_ESCURO, WHITE, Fo);
