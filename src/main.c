@@ -14,7 +14,7 @@ float map(float valor, float entrada_min, float entrada_max, float saida_min, fl
 
 int main(void) {
     
-    InitWindow(largura_tela, altura_tel, "Steam IFSC");
+    InitWindow(largura_tela, altura_tela, "Steam IFSC");
     ToggleFullscreen();
 
     Font Fo = LoadFont("assets/fonts/Roboto-Condensed.ttf");
