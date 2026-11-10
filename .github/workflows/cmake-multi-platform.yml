@@ -56,15 +56,15 @@ jobs:
 
     - name: Zip Windows
       if: runner.os == 'Windows'
-      run: Compress-Archive -Path build\Release\MeuJogoRaylib.exe -DestinationPath Jogo-Windows.zip
+      run: Compress-Archive -Path build\Release\main.exe -DestinationPath Windows.zip
 
     - name: Zip Linux
       if: runner.os == 'Linux'
-      run: zip -j Jogo-Linux.zip build/MeuJogoRaylib
+      run: zip -j Linux.zip build/main
 
     - name: Publicar na Release
       uses: softprops/action-gh-release@v2
       with:
         files: |
-          Jogo-Windows.zip
-          Jogo-Linux.zip
+          Windows.zip
+          Linux.zip
