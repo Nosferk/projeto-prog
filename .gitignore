@@ -3,6 +3,7 @@
 
 #build
 /build
+/build-local
 .clang-format
 .clangd
 /.vscode
