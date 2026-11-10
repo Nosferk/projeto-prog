@@ -1,5 +1,5 @@
-#ifndef CORES.H
-#define CORES.H
+#ifndef CORES_H
+#define CORES_H
 
 #include "raylib.h"
 
