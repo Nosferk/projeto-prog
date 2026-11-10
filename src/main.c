@@ -11,11 +11,11 @@ bool botao(const char *texto, int tam, float x, float y, float x2, float y2, Col
 float map(float valor, float entrada_min, float entrada_max, float saida_min, float saida_max);
 
 int main(void) {
-    
-    InitWindow(0, 0, "Steam IFSC");
-    ToggleFullscreen();
     largura_tela = GetMonitorWidth(GetCurrentMonitor());
     altura_tela = GetMonitorHeight(GetCurrentMonitor());
+    InitWindow(largura_tela, altura_tela, "Steam IFSC");
+    ToggleFullscreen();
+
     Font Fo = LoadFont("assets/fonts/Roboto-Condensed.ttf");
 
     if (!IsFontValid(Fo)) {
