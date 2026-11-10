@@ -3,7 +3,7 @@
 #include "cores.h"
 
 int largura_tela;
-int altura_tel;
+int altura_tela;
 GetMonitorWidth(int largura_tela);
 GetMonitorHeight(int altura_tela);
 void fundo_base(int *menu, Font Fo, float *loja_barra);
