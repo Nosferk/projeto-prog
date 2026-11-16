@@ -1,12 +1,16 @@
-jogo1 
-  nome=1
-  descricao=
-  criador=
-  data=
-  imagem=
-jogo2 
-  nome=1
-  descricao=
-  criador=
-  data=
-  imagem=
+{
+  "jogo1": {
+    "nome": "1",
+    "descricao": "",
+    "criador": "",
+    "data": "",
+    "imagem": ""
+  },
+  "jogo2": {
+    "nome": "1",
+    "descricao": "",
+    "criador": "",
+    "data": "",
+    "imagem": ""
+  }
+}
